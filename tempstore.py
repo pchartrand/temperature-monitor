@@ -10,6 +10,9 @@ from libs.templib import get_time
 
 
 class Reader(object):
+    """Reads from arduino and saves samples of values to store.
+    If averager is provided, will store average of samples collected during sampling period.
+    """
     i = 0
     def __init__(self, arduino, store, averager=None):
         self.arduino = arduino
@@ -17,7 +20,7 @@ class Reader(object):
         self.averager = averager
 
     def read(self):
-        (line, temp) = self.arduino.read_line_stripped().split(':')
+        (line, temp) = self.arduino.read_temperatures()
         time = get_time()
         if self.averager is not None:
             self.averager.keep_readings(line, temp)
