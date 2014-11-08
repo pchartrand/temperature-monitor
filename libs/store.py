@@ -5,7 +5,7 @@ import memcache
 
 
 class KeyMixin(object):
-    """Utility class to generate an maintain keys used to get/set values in the store
+    """Utility class to generate and maintain keys used to get/set values in the store
     """
     KEY_TEMPLATES = ['line', 'temp', 'time']
     keys = {}
