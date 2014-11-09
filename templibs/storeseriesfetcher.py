@@ -24,6 +24,8 @@ class StoreSeriesFetcher(object):
                 continue
             elif line == '0':
                 s0.append(_format(timestamp, temp))
-            else:
+            elif line == '1':
                 s1.append(_format(timestamp, temp))
+            else:
+                raise Exception("Unknown line %s" % line)
         return s0, s1
