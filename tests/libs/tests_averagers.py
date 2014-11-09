@@ -2,7 +2,7 @@ from nose.tools import istest
 
 from unittest import TestCase
 
-from libs.averagers import ReadingsAverager
+from templibs.averagers import ReadingsAverager
 
 
 class AveragerTests(TestCase):

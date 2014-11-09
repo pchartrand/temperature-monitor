@@ -2,11 +2,11 @@
 from sys import argv
 import logging
 
-from libs.arduinousb import ArduinoUSB
-from libs.averagers import ReadingsAverager
-from libs.constants import SAMPLE_PERIOD
-from libs.store import Store
-from libs.templib import get_time
+from templibs.arduinousb import ArduinoUSB
+from templibs.averagers import ReadingsAverager
+from templibs.constants import SAMPLE_PERIOD
+from templibs.store import Store
+from templibs.templib import get_time
 
 
 class Reader(object):

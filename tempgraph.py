@@ -2,9 +2,9 @@
 #- coding: utf-8 -#
 import matplotlib.pyplot as plt
 
-from libs.store import Store
-from libs.storeseriesfetcher import StoreSeriesFetcher
-from libs.tempseriesplot import plot_temperatures
+from templibs.store import Store
+from templibs.storeseriesfetcher import StoreSeriesFetcher
+from templibs.tempseriesplot import plot_temperatures
 
 
 if __name__ == '__main__':

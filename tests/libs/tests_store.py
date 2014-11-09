@@ -2,7 +2,7 @@ from nose.tools import istest
 
 from unittest import TestCase
 
-from libs.store import Store
+from templibs.store import Store
 
 
 class StoreTests(TestCase):

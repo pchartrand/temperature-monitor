@@ -4,7 +4,7 @@ from nose.tools import istest
 
 from unittest import TestCase
 
-from libs.storeseriesfetcher import StoreSeriesFetcher
+from templibs.storeseriesfetcher import StoreSeriesFetcher
 
 
 class FakedStore(object):

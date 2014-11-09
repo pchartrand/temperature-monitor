@@ -2,7 +2,7 @@ from nose.tools import istest
 
 from unittest import TestCase
 
-from libs.storekeys import KeyMixin
+from templibs.storekeys import KeyMixin
 
 
 class KeyMixinTests(TestCase):

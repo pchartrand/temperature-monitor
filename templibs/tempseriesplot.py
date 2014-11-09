@@ -1,7 +1,7 @@
 #- coding: utf-8 -#
 
-from libs.templib import get_time
-from libs.tempseries import TempDataset
+from templibs.templib import get_time
+from templibs.tempseries import TempDataset
 
 
 class TempPlotter(object):

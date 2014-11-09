@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from libs.store import Store
+from templibs.store import Store
 
 
 if __name__ == '__main__':

@@ -8,11 +8,11 @@ matplotlib.use('Agg')  #graphical backend not requiring X11
 import matplotlib.pyplot as plt
 from pylab import savefig, setp
 
-from libs.constants import GRAPHS_OUTPUT_DIRECTORY
-from libs.store import Store
-from libs.storeseriesfetcher import StoreSeriesFetcher
-from libs.tempseriesplot import plot_temperatures
-from libs.templib import get_time
+from templibs.constants import GRAPHS_OUTPUT_DIRECTORY
+from templibs.store import Store
+from templibs.storeseriesfetcher import StoreSeriesFetcher
+from templibs.tempseriesplot import plot_temperatures
+from templibs.templib import get_time
 
 logging.basicConfig(level=logging.INFO)
 

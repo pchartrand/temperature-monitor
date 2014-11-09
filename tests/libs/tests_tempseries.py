@@ -2,7 +2,7 @@ from nose.tools import istest
 
 from unittest import TestCase
 
-from libs.tempseries import TempDataset
+from templibs.tempseries import TempDataset
 
 
 class TemDatasetTests(TestCase):
