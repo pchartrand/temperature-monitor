@@ -7,7 +7,7 @@ class StoreSeriesFetcher(object):
 
     def fetch(self):
         def _format(timestamp, temp):
-            return (dt.strptime(timestamp, '%Y-%m-%d %H:%M:%S'), float(temp))
+            return dt.strptime(timestamp, '%Y-%m-%d %H:%M:%S'), float(temp)
 
         last = self.store.last()
         s0 = []
