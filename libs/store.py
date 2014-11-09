@@ -74,3 +74,10 @@ class Store(KeyMixin):
     def get_last(self):
         """last inserted data"""
         return self.get_one(self.last())
+
+    def cleanup(self):
+        """wipes out data known to be saved by this instance"""
+        for i in range(self.counter, 0, -1):
+            self.make_keys(i - 1)
+            self.store.delete_multi(self.get_keys())
+        self.counter = 0
