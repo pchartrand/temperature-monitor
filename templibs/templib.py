@@ -1,5 +1,7 @@
 #- coding: utf-8 -#
-
+"""
+general purpose datetime and time functions
+"""
 import datetime
 import time
 

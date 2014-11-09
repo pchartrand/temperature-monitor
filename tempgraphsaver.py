@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 #- coding: utf-8 -#
+"""
+Saves a drawing of last day of temperature readings.
+"""
 import logging
 import os
 
@@ -29,5 +32,5 @@ if __name__ == '__main__':
     filename = 'temperatures_%s.png' % get_time()
     filename = filename.replace(' ', '_')
     filename = os.path.join(GRAPHS_OUTPUT_DIRECTORY, filename)
-    logging.info("saving to file %s", filename)
+    logging.info("Saving to file %s", filename)
     savefig(filename, dpi=300)

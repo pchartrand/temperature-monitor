@@ -3,7 +3,4 @@ python-memcached==1.53
 distribute==0.7.3
 #requires distribute>=0.6.28 e.g. easy_install -U distribute
 matplotlib==1.4.2
-#pygtk
-#pandas
-#scipy
-numpy==1.9.1
+

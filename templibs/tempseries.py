@@ -1,4 +1,8 @@
 class TempDataset(object):
+    """
+    Convert (timestamp, temperature) series as distinct timestamp and temperature series.
+    Calculates average temperature.
+    """
     def __init__(self, temperature_time_series):
         self.temperature_time_series = temperature_time_series
         self.timestamps, self.temperatures = self.split_coordinates_to_distinct_series(temperature_time_series)

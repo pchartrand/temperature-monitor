@@ -5,6 +5,9 @@ from templibs.tempseries import TempDataset
 
 
 class TempPlotter(object):
+    """
+    Given an instance of mathplotlib, generates a graph for temperature readings.
+    """
     def __init__(self, plotter):
         self.plotter = plotter
 
@@ -14,7 +17,7 @@ class TempPlotter(object):
     def plot_mean_temperature(self, x, avg):
         self.plotter.plot(x, [avg for i in range(len(x))])
 
-    def decorate_plot(self, ):
+    def decorate_plot(self):
         self.plotter.legend(
             (u'Extérieur', u'Moy. extérieure', u'Intérieur',u'Moy. intérieure'),
             loc='center right',
@@ -28,6 +31,9 @@ class TempPlotter(object):
 
 
 def plot_temperatures(plt, s0, s1):
+    """
+    Generates a graph for two temperature readings.
+    """
     external_temp = TempDataset(s0)
     internal_temp = TempDataset(s1)
     plotter = TempPlotter(plt)
