@@ -12,6 +12,9 @@ class ReadingsAverager(object):
         self.readings[line].append(temp)
 
     def average_readings(self, line):
+        if len(self.readings[line]) == 0:
+            return None
+
         sum_of_readings = float(reduce(lambda x,y: float(x)+float(y), self.readings[line]))
         return sum_of_readings / len(self.readings[line])
 
