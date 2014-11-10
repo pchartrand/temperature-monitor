@@ -27,8 +27,15 @@ class Store(KeyMixin):
         data = self.store.get_multi(self.get_keys())
         return [self.get_value(data, key) for key in self.KEY_TEMPLATES]
 
+    def _adjust_counter(self, i):
+        if i > self.counter:
+            self.counter = i-1
+            self.store.set('counter', self.counter - 1)
+
     def store_one(self, i, line, temp, time):
         """store data at a precise position"""
+        if i<0:
+            raise ValueError("Cannot insert at negative position %s" % i)
         self.make_keys(i)
         self.store.set_multi(
             {
@@ -38,6 +45,7 @@ class Store(KeyMixin):
             },
             time=MEMCACHE_EXPIRATION_TIME
         )
+        self._adjust_counter(i)
 
     def push(self, line, temp, time):
         """add data at the end of the stack"""

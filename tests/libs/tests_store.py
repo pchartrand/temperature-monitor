@@ -14,7 +14,7 @@ class StoreTests(TestCase):
 
     @istest
     def can_store_and_recall_values(self):
-        self.store.push('1',2.3, 3)
+        self.store.push('1', 2.3, 3)
 
         self.assertEqual(['1', 2.3, 3], self.store.get_last())
 
@@ -37,3 +37,7 @@ class StoreTests(TestCase):
     @istest
     def missing_values_are_returned_as_nones(self):
         self.assertEqual([None, None, None], self.store.get_one(0))
+
+    @istest
+    def cannot_store_values_at_negative_positions(self):
+        self.assertRaises(ValueError, self.store.store_one, -1, '1', 5.5, 2)
