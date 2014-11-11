@@ -114,8 +114,9 @@ I can access to the last measurement, and all the ones before.
 The values expire after 24 hours.
 
 
-Workflow
+Program workflow
 --
+
 Using memcache as the storage allows to divide the work between distinct programs, keeping them small and maintenable.
 
 A single program is responsible to get the measurements from the arduino, compute the
@@ -123,8 +124,8 @@ average temperature and store the value and timestamp in memcache. Only one inst
 
 A different program can then get the data from memcache and display it or use it for other purposes. There is no limit to the number of simultaneous programs for reading.
 
-Commands available
---
+### Commands available
+
 - *tempstore*: reads temperature readings from arduino and stores them to memcache
 - *tempread*: prints last readings on the console
 - *templast*: prints readings for the last 24 hours on the console
@@ -138,5 +139,23 @@ Requires memcached, python_memcached, pyserial  and matplotlib.
 
 tempgraph command requires matplotlib compiled with a tk backend.
 
+`git clone https://github.com/pchartrand/temperature-monitor.git`
+
+`cd temperature-monitor`
+
+### System-wide installation
+
+
+`sudo pip install .`
+
+
+### Virtualenv installation
+
+
+`pip install .`
+
+### Uninstall
+
+`pip uninstall temperature-monitor`
 
 
