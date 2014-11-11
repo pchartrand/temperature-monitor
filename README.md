@@ -8,18 +8,13 @@ memcached for short term-storage and mathplotlib for plotting temperature variat
 
 The circuit
 --
-Every second, arduino measures voltage across a voltage divider made of a salvaged negative temperature
-coefficient thermistor (NTC) from a salvaged indoor/outdoor thermometer and a 5k6 resistor.
+Every second, arduino measures voltage across a voltage divider made of negative temperature
+coefficient thermistor (NTC) taken from a salvaged indoor/outdoor thermometer and a 5k6 resistor.
 
- 5v ----NTC---|-- analog input
- ref.         5
-              k
-              6
-              |
-             ___ ground
-              _
+The NTC and the resistor are connected in series, between the Arduino 5v reference voltage and the ground.
+A wire connected betweeen the NTC and the resistor is also connected to an analog input of the arduino.
 
-This circuit can be repeated to have more temperature sensors if desired. I chose to use two.
+This circuit can be repeated to have more temperature sensors if desired. I chose to use two, one for indoor temperature, one for outdoor temperature.
 
 The maths
 --
@@ -28,22 +23,25 @@ NTCs have a non-linear temperature to resistance relationship, which can be mode
 In order to figure out the coefficients, you have to measure the resistance of the ntc at different temperatures, using
 an ohmmeter, a freezer, ice, water that you will heat and a reference thermometer. These are the readings I got.
 
-T(c) Rntc(Ko)
--18	    48.8
--15	    42
-  0	    24
- 20	    12.4
- 40	     5.4
- 50	     4
- 60	     2.8
- 70	     2.15
- 80	     1.65
- 90	     1.34
-100	     1.01
+<table>
+<tr><th>T(c)</th><th>Rntc(Ko)</th></tr>
+<tr><td>-18 </td><td> 48.8</dt></tr>
+<tr><td>-15 </td><td> 42</dt></tr>
+<tr><td>0 </td><td> 24</td></tr>
+<tr><td>20 </td><td> 12.4</td></tr>
+<tr><td>40 </td><td>  5.4</td></tr>
+<tr><td>50 </td><td>  4</td></tr>
+<tr><td>60 </td><td>  2.8</td></tr>
+<tr><td>70 </td><td>  2.15</td></tr>
+<tr><td>80 </td><td>  1.65</td></tr>
+<tr><td>90 </td><td>  1.34</td></tr>
+<tr><td>100 </td><td>  1.01</td></tr>
+</table>
 
 Now the resistance values are fine, but the arduino measures voltages, not resistances.
-You must convert the resistance readings in voltage values as seen by the arduino, applying Ohm's Law to a voltage
-divider network, where the output voltage measured across the series resistor is
+You must convert the resistance readings in voltage values as seen by the arduino,
+applying Ohm's Law to a voltage divider network, where the output voltage measured
+across the series resistor is
 
     Vo = Vref * (Rntc /(Rntc+R))
 
@@ -53,18 +51,20 @@ and R is the series resistor.
 
 Using this formula, you can determine Vo for all Rntc values.
 
-T(c) Rntc(Ko)      Vo
--18	    48.8     0.51
--15	    42       0.59
-  0	    24       0.95
- 20	    12.4     1.56
- 40	     5.4     2.55
- 50	     4       2.92
- 60	     2.8     3.33
- 70	     2.15    3.61
- 80	     1.65    3.86
- 90	     1.34    4.03
-100	     1.01    4.24
+<table>
+<tr><th>T(c)</th><th>Rntc(Ko)</th><th>Vo</th></tr>
+<tr><td>-18</td><td>48.8</td><td> 0.51</td></tr>
+<tr><td>-15</td><td>42</td><td>0.59</td></tr>
+<tr><td>  0</td><td>24</td><td>0.95</td></tr>
+<tr><td> 20</td><td>12.4</td><td>1.56</td></tr>
+<tr><td> 40</td><td>5.4</td><td>2.55</td></tr>
+<tr><td> 50</td><td>4</td><td>2.92</td></tr>
+<tr><td> 60</td><td>2.8</td><td>3.33</td></tr>
+<tr><td> 70</td><td>2.15</td><td>3.61</td></tr>
+<tr><td> 80</td><td>1.65</td><td>3.86</td></tr>
+<tr><td> 90</td><td>1.34</td><td>4.03</td></tr>
+<tr><td>100</td><td>1.01</td><td>4.24</td></tr>
+</table>
 
 The resistor is chosen in order to have a voltage range that is roughly linear
 in the target temperature range, and total resistance should be around 10k
