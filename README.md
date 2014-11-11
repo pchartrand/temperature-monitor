@@ -46,7 +46,7 @@ applying Ohm's Law to a voltage divider network, where the output voltage measur
 
 where Vref is the reference voltage taken from the arduino (5 volts),
 Rntc is the measured resistance,
-and R is the series resistor.
+and R is the series resistor (5.6Ko).
 
 Using this formula, you can determine Vo for all Rntc values.
 
