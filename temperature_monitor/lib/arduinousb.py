@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-.
-from constants import ARDUINO_BAUD_RATE, ARDUINO_USB_PORT
+from temperature_monitor.lib.constants import ARDUINO_BAUD_RATE, ARDUINO_USB_PORT
 import serial
 
 

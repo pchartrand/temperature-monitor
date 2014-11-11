@@ -123,8 +123,20 @@ average temperature and store the value and timestamp in memcache. Only one inst
 
 A different program can then get the data from memcache and display it or use it for other purposes. There is no limit to the number of simultaneous programs for reading.
 
+Commands available
+--
+- *tempstore*: reads temperature readings from arduino and stores them to memcache
+- *tempread*: prints last readings on the console
+- *templast*: prints readings for the last 24 hours on the console
+- *tempgraphsaver*: saves last day readings as a graph in a png file
+- *tempgraph*: displays last readings as a graph in an interactive display
 
+Installing
+--
 
+Requires memcached, python_memcached, pyserial  and matplotlib.
+
+tempgraph command requires matplotlib compiled with a tk backend.
 
 
 

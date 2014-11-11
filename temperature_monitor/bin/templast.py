@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-from templibs.store import Store
+from temperature_monitor.lib.store import Store
 
 
-if __name__ == '__main__':
+def main_func():
     store = Store()
     last = store.last()
     for i in range(store.depth):
@@ -11,3 +11,6 @@ if __name__ == '__main__':
             continue
         print("%i %s %s %.1f" % (i, timestamp, line, float(temp)))
 
+
+if __name__ == '__main__':
+    main_func()

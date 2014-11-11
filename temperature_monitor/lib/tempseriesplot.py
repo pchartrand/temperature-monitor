@@ -1,7 +1,7 @@
 #- coding: utf-8 -#
 
-from templibs.templib import get_time
-from templibs.tempseries import TempDataset
+from temperature_monitor.lib.templib import get_time
+from temperature_monitor.lib.tempseries import TempDataset
 
 
 class TempPlotter(object):

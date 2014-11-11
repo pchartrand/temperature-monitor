@@ -2,11 +2,11 @@
 from sys import argv
 import logging
 
-from templibs.arduinousb import ArduinoUSB
-from templibs.averagers import ReadingsAverager
-from templibs.constants import SAMPLE_PERIOD
-from templibs.store import Store
-from templibs.templib import get_time
+from temperature_monitor.lib.arduinousb import ArduinoUSB
+from temperature_monitor.lib.averagers import ReadingsAverager
+from temperature_monitor.lib.constants import SAMPLE_PERIOD
+from temperature_monitor.lib.store import Store
+from temperature_monitor.lib.templib import get_time
 
 
 class Reader(object):
@@ -45,14 +45,17 @@ class Reader(object):
             self.averager.reset_readings(line)
 
 
-if __name__ == '__main__':
+def main_func():
     if '-v' in argv:
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=logging.INFO)
-    
+
     averager = ReadingsAverager()
     reader = Reader(ArduinoUSB(), Store(), averager)
     while True:
         reader.sample()
 
+
+if __name__ == '__main__':
+    main_func()

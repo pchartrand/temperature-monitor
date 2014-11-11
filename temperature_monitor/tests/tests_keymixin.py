@@ -2,7 +2,7 @@ from nose.tools import istest
 
 from unittest import TestCase
 
-from templibs.storekeys import KeyMixin
+from temperature_monitor.lib.storekeys import KeyMixin
 
 
 class KeyMixinTests(TestCase):

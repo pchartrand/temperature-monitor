@@ -4,7 +4,7 @@ from nose.tools import istest
 
 from unittest import TestCase
 
-from templibs.storeseriesfetcher import StoreSeriesFetcher
+from temperature_monitor.lib.storeseriesfetcher import StoreSeriesFetcher
 
 
 class FakedStore(object):

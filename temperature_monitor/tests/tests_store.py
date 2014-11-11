@@ -2,7 +2,7 @@ from nose.tools import istest
 
 from unittest import TestCase
 
-from templibs.store import Store
+from temperature_monitor.lib.store import Store
 
 
 class StoreTests(TestCase):

@@ -2,7 +2,7 @@ from nose.tools import istest
 
 from unittest import TestCase
 
-from templibs.averagers import ReadingsAverager
+from temperature_monitor.lib.averagers import ReadingsAverager
 
 
 class AveragerTests(TestCase):

@@ -2,8 +2,8 @@
 
 import memcache
 
-from constants import MEMCACHE_EXPIRATION_TIME, MEMCACHED_HOST, SAMPLE_WINDOW
-from storekeys import KeyMixin
+from temperature_monitor.lib.constants import MEMCACHE_EXPIRATION_TIME, MEMCACHED_HOST, SAMPLE_WINDOW
+from temperature_monitor.lib.storekeys import KeyMixin
 
 
 class Store(KeyMixin):
