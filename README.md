@@ -1,9 +1,9 @@
 temperature-monitor
 ===================
 
-Indoor and outdoor temperature measurements on a 24h timeframe.
+Indoor and outdoor temperature measurements on a 24h time period.
 
-Silly project using thermistors for temperature sensing, arduino for data acquisition,
+A project using thermistors for temperature sensing, arduino for data acquisition,
 memcached for short term-storage and mathplotlib for plotting temperature variations.
 
 The circuit
@@ -12,7 +12,7 @@ Every second, arduino measures voltage across a voltage divider made of negative
 coefficient thermistor (NTC) taken from a salvaged indoor/outdoor thermometer and a 5k6 resistor.
 
 The NTC and the resistor are connected in series, between the Arduino 5v reference voltage and the ground.
-A wire connected betweeen the NTC and the resistor is also connected to an analog input of the arduino.
+A wire connected a the junction of the NTC and the resistor is also connected to an analog input of the arduino.
 
 This circuit can be repeated to have more temperature sensors if desired. I chose to use two, one for indoor temperature, one for outdoor temperature.
 
@@ -20,8 +20,8 @@ The maths
 --
 NTCs have a non-linear temperature to resistance relationship, which can be modelized with a third order polynomial.
 
-In order to figure out the coefficients, you have to measure the resistance of the ntc at different temperatures, using
-an ohmmeter, a freezer, ice, water that you will heat and a reference thermometer. These are the readings I got.
+In order to figure out the coefficients of the polynomial, you have to measure the resistance of the NTC at different temperatures, using
+an ohmmeter, a freezer, some ice, water that you will heat and a reference thermometer. These are the readings I got. Yours will probably be different.
 
 <table>
 <tr><th>T(c)</th><th>Rntc(Ko)</th></tr>
@@ -40,10 +40,9 @@ an ohmmeter, a freezer, ice, water that you will heat and a reference thermomete
 
 Now the resistance values are fine, but the arduino measures voltages, not resistances.
 You must convert the resistance readings in voltage values as seen by the arduino,
-applying Ohm's Law to a voltage divider network, where the output voltage measured
-across the series resistor is
+applying Ohm's Law to a voltage divider network, where the output voltage measured across the series resistor is
 
-    Vo = Vref * (Rntc /(Rntc+R))
+    Vo = Vref * (R /(Rntc+R))
 
 where Vref is the reference voltage taken from the arduino (5 volts),
 Rntc is the measured resistance,
@@ -84,7 +83,7 @@ http://www.xuru.org/rt/pr.asp
 
 Data acquisition
 --
-Every second, the arduino measures the voltages on one of the two analog inputs every,
+Every second, the arduino measures the voltages at one of the two analog inputs,
 and sends a temperature reading to the usb port, converting the voltage values in
 temperature values using the polynomial equation, and indicating which input was read.
 
@@ -100,7 +99,7 @@ the data does not require a long conservation time.
 A one day period seems enough for reporting purposes. With two inputs and a measurement every
 minute, it requires to store 2880 measurements per day.
 
-A longer period would probably require a database to store the ever growing data.
+A longer period would probably use a database to store the potentially ever growing data.
 
 
 Data structure
@@ -112,17 +111,17 @@ number, and the temperature measurement.
 
 Using a global counter, whose value is saved under a constant key,
 I can access to the last measurement, and all the ones before.
-The values expire after one 24 hours.
+The values expire after 24 hours.
 
 
 Workflow
 --
-Using memcache as the storage allows to divide the work between distinct programs.
+Using memcache as the storage allows to divide the work between distinct programs, keeping them small and maintenable.
 
 A single program is responsible to get the measurements from the arduino, compute the
-average and store the value and timestamp in memcache.
+average temperature and store the value and timestamp in memcache. Only one instance of the storage program should be running.
 
-A different program can then get the data from memcache and use it or display it.
+A different program can then get the data from memcache and display it or use it for other purposes. There is no limit to the number of simultaneous programs for reading.
 
 
 
