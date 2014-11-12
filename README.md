@@ -9,10 +9,10 @@ memcached for short term-storage and mathplotlib for plotting temperature variat
 The circuit
 --
 Every second, arduino measures voltage across a voltage divider made of negative temperature
-coefficient thermistor (NTC) taken from a salvaged indoor/outdoor thermometer and a 5k6 resistor.
+coefficient thermistor (NTC) taken from a salvaged indoor/outdoor thermometer and a 5k6 resistor. (See diagram temperature_monitor_diagram.png in *Samples* directory).
 
 The NTC and the resistor are connected in series, between the Arduino 5v reference voltage and the ground.
-A wire connected a the junction of the NTC and the resistor is also connected to an analog input of the arduino.
+A wire connected at the junction of the NTC and the resistor is also connected to an analog input of the arduino.
 
 This circuit can be repeated to have more temperature sensors if desired. I chose to use two, one for indoor temperature, one for outdoor temperature.
 
@@ -77,6 +77,8 @@ find a third order polynomial describing our system.
 The polynomial that best fits this dataset is
 
     T = 3.296v^3 -22.378v^2 +70.951v -49.382
+
+(See diagram ntc_measurements_and_polynomial_regression.png in *Samples* directory).
 
 You can find online polynomial regression tools to determine these coefficients at
 http://www.xuru.org/rt/pr.asp
