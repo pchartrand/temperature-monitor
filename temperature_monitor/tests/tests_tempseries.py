@@ -9,16 +9,16 @@ class TemDatasetTests(TestCase):
     @istest
     def can_split_coordinate_series_in_distinct_series(self):
         dataset = dataset = TempDataset([
-            [datetime.datetime(2014, 12, 26, 15, 6, 20), 1.1],
+            [datetime.datetime(2014, 12, 26, 15, 6, 18), 1.1],
             [datetime.datetime(2014, 12, 26, 15, 6, 19), 1.2],
-            [datetime.datetime(2014, 12, 26, 15, 6, 18), 1.3]
+            [datetime.datetime(2014, 12, 26, 15, 6, 20), 1.3]
         ])
 
         self.assertEqual(
             [
-                datetime.datetime(2014, 12, 26, 15, 6, 20),
+                datetime.datetime(2014, 12, 26, 15, 6, 18),
                 datetime.datetime(2014, 12, 26, 15, 6, 19),
-                datetime.datetime(2014, 12, 26, 15, 6, 18)
+                datetime.datetime(2014, 12, 26, 15, 6, 20)
             ],
             dataset.timestamps
         )
@@ -52,10 +52,9 @@ class TemDatasetTests(TestCase):
     @istest
     def can_get_temperature_variation_and_time_variation(self):
         dataset = TempDataset([
-            [datetime.datetime(2014, 12, 26, 15, 6, 20), 12.1],
+            [datetime.datetime(2014, 12, 26, 15, 6, 18), 12.1],
             [datetime.datetime(2014, 12, 26, 15, 6, 19), 11.2],
-            [datetime.datetime(2014, 12, 26, 15, 6, 18), 11.1]
+            [datetime.datetime(2014, 12, 26, 15, 6, 20), 11.1]
         ])
         self.assertEqual(2L, dataset.time_variation_in_seconds)
-        self.assertEqual(1.0, dataset.temperature_variation)
-
+        self.assertEqual(-1.0, dataset.temperature_variation)

@@ -14,31 +14,32 @@ class TempDataset(object):
         self.time_variation_in_seconds = self.get_time_variation_in_seconds()
 
     def get_average_temperature(self):
-        if len(self.temperatures):
-            return reduce(lambda x,y: x + y, self.temperatures) / self.len
+        if self.len > 0:
+            return reduce(lambda x, y: x + y, self.temperatures) / self.len
         else:
             return None
 
     def get_total_temperature_variation(self):
         if self.len > 0:
-            return round(self.temperatures[0] - self.temperatures[-1], 1)
+            return round(self.temperatures[-1] - self.temperatures[0], 1)
 
     def get_time_variation(self):
         if self.len > 0:
-            return self.timestamps[0] - self.timestamps[-1]
+            return self.timestamps[-1] - self.timestamps[0]
 
-    def _convert_datetime_to_seconds(self, value):
+    @staticmethod
+    def _convert_datetime_to_seconds(value):
         return value.strftime('%s') if isinstance(value, datetime.datetime) else value
 
     def get_time_variation_in_seconds(self):
         if self.len > 0:
-            t0 = long(self._convert_datetime_to_seconds(self.timestamps[-1]))
-            t1 = long(self._convert_datetime_to_seconds(self.timestamps[0]))
+            t0 = long(self._convert_datetime_to_seconds(self.timestamps[0]))
+            t1 = long(self._convert_datetime_to_seconds(self.timestamps[-1]))
             return t1 - t0
 
     def get_temperature_variation_for_last_hour(self):
-        if self.len > 60:
-            return round(self.temperatures[0] - self.temperatures[60], 1)
+        if self.len >= 60:
+            return round(self.temperatures[-1] - self.temperatures[-60], 1)
 
     @staticmethod
     def split_coordinates_to_distinct_series(s):
