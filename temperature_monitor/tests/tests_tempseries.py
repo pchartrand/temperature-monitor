@@ -8,7 +8,7 @@ from temperature_monitor.lib.tempseries import TempDataset
 class TemDatasetTests(TestCase):
     @istest
     def can_split_coordinate_series_in_distinct_series(self):
-        dataset = dataset = TempDataset([
+        dataset = TempDataset([
             [datetime.datetime(2014, 12, 26, 15, 6, 18), 1.1],
             [datetime.datetime(2014, 12, 26, 15, 6, 19), 1.2],
             [datetime.datetime(2014, 12, 26, 15, 6, 20), 1.3]
@@ -26,18 +26,18 @@ class TemDatasetTests(TestCase):
 
     @istest
     def len_property_keeps_track_of_number_of_measureements(self):
-        dataset = TempDataset([[1,1.1], [2, 1.2], [3, 1.3]])
+        dataset = TempDataset([[1, 1.1], [2, 1.2], [3, 1.3]])
         self.assertEqual(3, dataset.len)
 
     @istest
     def calculates_current_temperature(self):
-        dataset = TempDataset([[1,1.1], [2, 1.2], [3, 1.3]])
+        dataset = TempDataset([[1, 1.1], [2, 1.2], [3, 1.3]])
 
         self.assertEqual(1.3, dataset.current_temperature)
 
     @istest
     def calculates_average_temperature(self):
-        dataset = TempDataset([[1,1.1], [2, 1.2], [3, 1.3]])
+        dataset = TempDataset([[1, 1.1], [2, 1.2], [3, 1.3]])
 
         self.assertEqual(1.2, dataset.average_temperature)
 
@@ -89,8 +89,3 @@ class TemDatasetTests(TestCase):
         self.assertIsNone(dataset.temperature_variation_for_last_hour)
         self.assertIsNone(dataset.time_variation)
         self.assertIsNone(dataset.time_variation_in_seconds)
-
-
-
-
-
