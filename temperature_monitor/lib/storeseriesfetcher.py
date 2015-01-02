@@ -8,10 +8,11 @@ class StoreSeriesFetcher(object):
     def __init__(self, store):
         self.store = store
 
-    def fetch(self, samples=None):
-        def _format(timestamp, temp):
-            return dt.strptime(timestamp, '%Y-%m-%d %H:%M:%S'), float(temp)
+    @staticmethod
+    def _format(timestamp, temperature):
+            return dt.strptime(timestamp, '%Y-%m-%d %H:%M:%S'), float(temperature)
 
+    def fetch(self, samples=None):
         if samples is None:
             samples = self.store.depth
 
@@ -23,9 +24,9 @@ class StoreSeriesFetcher(object):
             if line is None:
                 continue
             elif line == '0':
-                s0.append(_format(timestamp, temp))
+                s0.append(self._format(timestamp, temp))
             elif line == '1':
-                s1.append(_format(timestamp, temp))
+                s1.append(self._format(timestamp, temp))
             else:
                 raise Exception("Unknown line %s" % line)
         return s0, s1

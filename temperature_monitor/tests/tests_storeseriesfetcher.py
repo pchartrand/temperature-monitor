@@ -9,6 +9,7 @@ from temperature_monitor.lib.storeseriesfetcher import StoreSeriesFetcher
 
 class FakedStore(object):
     depth = 4
+
     def fetch(self):
         pass
 
