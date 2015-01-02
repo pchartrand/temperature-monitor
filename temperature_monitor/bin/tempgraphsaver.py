@@ -7,7 +7,7 @@ import logging
 import os
 
 import matplotlib
-matplotlib.use('Agg')  #graphical backend not requiring X11
+matplotlib.use('Agg')  # graphical backend not requiring X11
 import matplotlib.pyplot as plt
 from pylab import savefig, setp
 
