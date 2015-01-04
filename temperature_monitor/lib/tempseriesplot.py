@@ -47,7 +47,7 @@ def report_on_temperature(temp, label):
             temp.temperature_variation_for_last_hour
         )
     )
-    print()
+    print(u"")
 
 
 def plot_temperatures(plt, s0, s1):
