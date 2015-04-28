@@ -1,13 +1,15 @@
 #- coding: utf-8 -#
-
+from temperature_monitor.lib.constants import ARDUINO_NUMBER_OF_INPUTS
 
 class ReadingsAverager(object):
     """
     Keeps most recent readings for distinct lines and returns average value.
     """
-    LINE0 = '0'
-    LINE1 = '1'
-    readings = {LINE0: [], LINE1: []}
+    def __init__(self):
+        self.readings = {}
+        for i in range(ARDUINO_NUMBER_OF_INPUTS):
+            self.readings[str(i)] = []
+
     def keep_readings(self, line, temp):
         self.readings[line].append(temp)
 

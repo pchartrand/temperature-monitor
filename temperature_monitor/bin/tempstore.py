@@ -4,7 +4,7 @@ import logging
 
 from temperature_monitor.lib.arduinousb import ArduinoUSB
 from temperature_monitor.lib.averagers import ReadingsAverager
-from temperature_monitor.lib.constants import SAMPLE_PERIOD
+from temperature_monitor.lib.constants import SAMPLE_PERIOD, ARDUINO_NUMBER_OF_INPUTS
 from temperature_monitor.lib.store import Store
 from temperature_monitor.lib.templib import get_time
 
@@ -30,7 +30,7 @@ class Reader(object):
         (line, temp, time) = self.read()
         logging.debug(u"%s [read] %s %.1f", time, line, float(temp))
 
-        if self.i % SAMPLE_PERIOD in [0, 1]:
+        if self.i % SAMPLE_PERIOD in range(ARDUINO_NUMBER_OF_INPUTS):
             if self.averager is not None:
                 saved_temp = self.averager.average_readings(line)
             else:
