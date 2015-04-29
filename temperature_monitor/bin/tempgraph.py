@@ -9,10 +9,10 @@ from temperature_monitor.lib.tempseriesplot import plot_temperatures
 
 def main_func():
     fetcher = StoreSeriesFetcher(Store())
-    s0, s1 = fetcher.fetch()
-    for s in (s0, s1):
+    series = fetcher.fetch()
+    for s in (series):
         s.reverse()
-    plot_temperatures(plt, s0, s1)
+    plot_temperatures(plt, series)
     plt.show()
 
 

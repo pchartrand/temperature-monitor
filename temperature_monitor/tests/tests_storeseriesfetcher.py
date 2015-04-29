@@ -4,8 +4,8 @@ from nose.tools import istest
 
 from unittest import TestCase
 
+from temperature_monitor.lib.constants import ARDUINO_NUMBER_OF_INPUTS
 from temperature_monitor.lib.storeseriesfetcher import StoreSeriesFetcher
-
 
 class FakedStore(object):
     depth = 4
@@ -27,8 +27,10 @@ class FakedStore(object):
 
 
 class StoreSeriesFetcherTests(TestCase):
+
     @istest
     def can_fetch_series_from_store(self):
+        assert ARDUINO_NUMBER_OF_INPUTS == 2
         fetcher = StoreSeriesFetcher(FakedStore())
 
         s0, s1 = fetcher.fetch()

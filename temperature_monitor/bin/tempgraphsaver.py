@@ -26,10 +26,10 @@ def resize_xticklabels(plt, fontsize=10):
 
 def main_func():
     fetcher = StoreSeriesFetcher(Store())
-    s0, s1 = fetcher.fetch()
-    for s in (s0, s1):
+    series = fetcher.fetch()
+    for s in series:
         s.reverse()
-    plot_temperatures(plt, s0, s1)
+    plot_temperatures(plt, series)
     resize_xticklabels(plt, fontsize=8)
     filename = 'temperatures_%s.png' % get_time()
     filename = filename.replace(' ', '_')

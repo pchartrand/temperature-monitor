@@ -50,21 +50,18 @@ def report_on_temperature(temp, label):
     print(u"")
 
 
-def plot_temperatures(plt, s0, s1):
+def plot_temperatures(plt, series):
     """
-    Generates a graph for two temperature readings.
+    Generates a graph for n temperature readings.
     """
-    external_temp = TempDataset(s0)
-    internal_temp = TempDataset(s1)
-
-    report_on_temperature(external_temp, 'external')
-    report_on_temperature(internal_temp, 'internal')
     plotter = TempPlotter(plt)
 
-    plotter.plot_temperature_variations(external_temp.timestamps, external_temp.temperatures)
-    plotter.plot_mean_temperature(external_temp.timestamps, external_temp.average_temperature)
+    for i, serie in enumerate(series):
+        temperatures = TempDataset(serie)
 
-    plotter.plot_temperature_variations(internal_temp.timestamps, internal_temp.temperatures)
-    plotter.plot_mean_temperature(internal_temp.timestamps, internal_temp.average_temperature)
+        report_on_temperature(temperatures, i)
+
+        plotter.plot_temperature_variations(temperatures.timestamps, temperatures.temperatures)
+        plotter.plot_mean_temperature(temperatures.timestamps, temperatures.average_temperature)
 
     plotter.decorate_plot()
