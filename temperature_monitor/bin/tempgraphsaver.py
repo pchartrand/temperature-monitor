@@ -5,6 +5,7 @@ Saves a drawing of last day of temperature readings.
 """
 import logging
 import os
+import sys
 
 import matplotlib
 matplotlib.use('Agg')  # graphical backend not requiring X11
@@ -24,12 +25,15 @@ def resize_xticklabels(plt, fontsize=10):
     setp(plt.axes().get_xticklabels(), fontsize=fontsize)
 
 
-def main_func():
+def main_func(labels=None):
+    if labels is None:
+        labels = sys.argv[1:]
+    labels = [label.decode('utf-8') for label in labels]
     fetcher = StoreSeriesFetcher(Store())
     series = fetcher.fetch()
     for s in series:
         s.reverse()
-    plot_temperatures(plt, series)
+    plot_temperatures(plt, series, labels)
     resize_xticklabels(plt, fontsize=8)
     filename = 'temperatures_%s.png' % get_time()
     filename = filename.replace(' ', '_')
