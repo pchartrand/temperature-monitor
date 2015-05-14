@@ -131,8 +131,22 @@ A different program can then get the data from memcache and display it or use it
 - *tempstore*: reads temperature readings from arduino and stores them to memcache
 - *tempread*: prints last readings on the console
 - *templast*: prints readings for the last 24 hours on the console
-- *tempgraphsaver*: saves last day readings as a graph in a png file
+- *tempgraphsaver*: saves last day readings as a graph in a png file. Add labels to readings on command line.
 - *tempgraph*: displays last readings as a graph in an interactive display
+
+
+### Customizing via environment variables
+A few settings can be changed using environment variables:
+
+ - ARDUINO_USB_PORT: The usb device to use to communicate with the arduino
+ - ARDUINO_BAUD_RATE: The baud rate of the communication
+ - ARDUINO_NUMBER_OF_INPUTS: The number of analog inputs to track (1 to 5)
+ - GRAPHS_OUTPUT_DIRECTORY: a directory where to save the graphs
+ - MEMCACHED_HOST = ip:port of the memcached used to store the readings
+ - MEMCACHE_EXPIRATION_TIME: ttl in number of seconds of memcache entries
+ - SAMPLE_PERIOD: number of seconds to average before storing in memcache
+ - SAMPLE_WINDOW: number of readings to keep in the graph.
+
 
 Installing
 --
