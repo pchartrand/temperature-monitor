@@ -14,11 +14,11 @@ class TempPlotter(object):
         self.colors = self.define_colors()
         self.labels = labels
 
-    def plot_temperature_variations(self, time, temp):
-        self.plotter.plot(time, temp)
+    def plot_temperature_variations(self, time, temp, index=0):
+        self.plotter.plot(time, temp, color=self.colors[index])
 
-    def plot_mean_temperature(self, x, avg):
-        self.plotter.plot(x, [avg for _ in range(len(x))])
+    def plot_mean_temperature(self, x, avg, index=0):
+        self.plotter.plot(x, [avg for _ in range(len(x))], color=self.colors[index])
 
     def define_colors(self):
         return ['blue', 'red', 'magenta', 'black', 'green']
@@ -82,8 +82,8 @@ def plot_temperatures(plt, series, labels):
 
         report_on_temperature(temperatures, i)
 
-        plotter.plot_temperature_variations(temperatures.timestamps, temperatures.temperatures)
-        plotter.plot_mean_temperature(temperatures.timestamps, temperatures.average_temperature)
+        plotter.plot_temperature_variations(temperatures.timestamps, temperatures.temperatures, index=i)
+        plotter.plot_mean_temperature(temperatures.timestamps, temperatures.average_temperature, index=i)
 
     plotter.add_titles(
         xlabel=u'Période',
