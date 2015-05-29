@@ -9,16 +9,16 @@ class TempPlotter(object):
     """
     Given an instance of mathplotlib, generates a graph for temperature readings.
     """
-    def __init__(self, plotter, labels):
+    def __init__(self, plotter, labels, colors):
         self.plotter = plotter
-        self.colors = self.define_colors()
+        self.colors = colors if colors is not None else self.define_colors()
         self.labels = labels
 
     def plot_temperature_variations(self, time, temp, index=0):
         self.plotter.plot(time, temp, color=self.colors[index])
 
     def plot_mean_temperature(self, x, avg, index=0):
-        self.plotter.plot(x, [avg for _ in range(len(x))], color=self.colors[index])
+        self.plotter.plot(x, [avg for _ in range(len(x))], color=self.colors[index], linewidth=0.35)
 
     def define_colors(self):
         return ['blue', 'red', 'magenta', 'black', 'green']
@@ -71,11 +71,11 @@ def report_on_temperature(temp, label):
     print(u"")
 
 
-def plot_temperatures(plt, series, labels):
+def plot_temperatures(plt, series, labels, colors):
     """
     Generates a graph for n temperature readings.
     """
-    plotter = TempPlotter(plt, labels)
+    plotter = TempPlotter(plt, labels, colors)
 
     for i, serie in enumerate(series):
         temperatures = TempDataset(serie)

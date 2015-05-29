@@ -33,7 +33,8 @@ def main_func(labels=None):
     series = fetcher.fetch()
     for s in series:
         s.reverse()
-    plot_temperatures(plt, series, labels)
+    colors = ['green', 'lightseagreen', 'royalblue', 'purple', 'crimson']
+    plot_temperatures(plt, series, labels, colors)
     resize_xticklabels(plt, fontsize=8)
     filename = 'temperatures_%s.png' % get_time()
     filename = filename.replace(' ', '_')
