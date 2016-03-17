@@ -174,4 +174,19 @@ tempgraph command requires matplotlib compiled with a tk backend.
 
 `pip uninstall temperature-monitor`
 
+Usage example
+--
+A setup with 5 ntc for outside, basement, ground floor, second floor and attic temperatures.
+
+The temperatures are displayed on a lcd display shield atop of the arduino. ![](Samples/lcd_display_shield.JPG)
+
+The shield illuminates when it's bushbuttons are pressed and gives readings in Celsius, Farenheit, Volts or 0-1023 range.
+![](Samples/temperatures_display.JPG)
+
+
+The temperature readings are stored in a memcached instance of a raspberrypi housed in the same box.
+![](Samples/temperature_monitor.JPG)
+
+The raspberrypy readings are accessible on the local network thru memcached using the same library.
+
 
