@@ -48,13 +48,16 @@ class StoreSeriesFetcher(object):
         for i in range(ARDUINO_NUMBER_OF_INPUTS):
             smoothed_series.append([])
             value = 0
-            for count, sample in enumerate(series_lists[i]):
+            timestamp = None
+            for count, sample in enumerate(series_lists[i]):  # going backwards in time
                 if count == 0:
-                    smoothed_series[i].append(sample)
+                    smoothed_series[i].append(sample)  # most recent sample
                     continue
                 if count % sampling:
                     value = value + sample[1]
+                    if count % sampling == 1:
+                        timestamp = sample[0]
                 else:
-                    smoothed_series[i].append([sample[0], value / sampling])
+                    smoothed_series[i].append([timestamp, value / sampling])
                     value = 0
         return smoothed_series
