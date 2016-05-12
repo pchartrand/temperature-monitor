@@ -31,3 +31,30 @@ class StoreSeriesFetcher(object):
             else:
                 raise Exception("Unknown line %s" % line)
         return series_lists
+
+    def sample(self, sampling=60):
+        series_lists = self.fetch()
+        sampled_series = []
+        for i in range(ARDUINO_NUMBER_OF_INPUTS):
+            sampled_series.append([])
+            for count, sample in enumerate(series_lists[i]):
+                if not (count % sampling):
+                    sampled_series[i].append(sample)
+        return sampled_series
+
+    def smooth(self, sampling=60):
+        series_lists = self.fetch()
+        smoothed_series = []
+        for i in range(ARDUINO_NUMBER_OF_INPUTS):
+            smoothed_series.append([])
+            value = 0
+            for count, sample in enumerate(series_lists[i]):
+                if count == 0:
+                    smoothed_series[i].append(sample)
+                    continue
+                if count % sampling:
+                    value = value + sample[1]
+                else:
+                    smoothed_series[i].append([sample[0], value / sampling])
+                    value = 0
+        return smoothed_series
