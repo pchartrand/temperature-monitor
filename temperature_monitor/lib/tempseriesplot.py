@@ -18,7 +18,7 @@ class TempPlotter(object):
         self.plotter.plot(time, temp, color=self.colors[index])
 
     def plot_mean_temperature(self, x, avg, index=0):
-        self.plotter.plot(x, [avg for _ in range(len(x))], color=self.colors[index], linewidth=0.35)
+        self.plotter.plot(x, [avg for _ in range(len(x))], color=self.colors[index], linewidth=0.20)
 
     def define_colors(self):
         return ['blue', 'red', 'magenta', 'black', 'green']
