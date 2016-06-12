@@ -8,7 +8,7 @@ LiquidCrystal lcd(8, 13, 9, 4, 5, 6, 7);
 const int referenceVolts = 5;
 const int delayTime = 950;
 const int debounceTime = 50;
-const int number_of_sensors = 6;
+const int number_of_sensors = 5;
 float temps[number_of_sensors];
 float volts[number_of_sensors];
 int values[number_of_sensors];
@@ -77,7 +77,7 @@ void displayValues(){
   lcd.setCursor(6, 1);
   lcd.print(values[4]);
   lcd.setCursor(12, 1);
-  lcd.print(values[5]);
+  lcd.print("1024");
 }
 
 void displayTemps(){
@@ -93,7 +93,7 @@ void displayTemps(){
   lcd.setCursor(6, 1);
   lcd.print(temps[4], 1);
   lcd.setCursor(12, 1);
-  lcd.print(temps[5], 1);
+  lcd.print("   C");
 }
 
 float cToF(float c){
@@ -113,7 +113,7 @@ void displayFarenheits(){
   lcd.setCursor(6, 1);
   lcd.print(cToF(temps[4]), 1);
   lcd.setCursor(12, 1);
-  lcd.print(cToF(temps[5]), 1);
+  lcd.print("   F");
 }
 void displayVolts(){
   lcd.clear();
@@ -128,7 +128,7 @@ void displayVolts(){
   lcd.setCursor(6, 1);
   lcd.print(volts[4], 2);
   lcd.setCursor(12, 1);
-  lcd.print(volts[5], 2);
+  lcd.print("   V");
 }
 
 int get_key(unsigned int input)
