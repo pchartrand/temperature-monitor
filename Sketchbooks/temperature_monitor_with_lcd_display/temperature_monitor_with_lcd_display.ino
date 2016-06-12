@@ -77,7 +77,7 @@ void displayValues(){
   lcd.setCursor(6, 1);
   lcd.print(values[4]);
   lcd.setCursor(12, 1);
-  lcd.print("1024");
+  lcd.print(values[5]);
 }
 
 void displayTemps(){
@@ -93,7 +93,7 @@ void displayTemps(){
   lcd.setCursor(6, 1);
   lcd.print(temps[4], 1);
   lcd.setCursor(12, 1);
-  lcd.print("   C");
+  lcd.print(temps[5], 1);
 }
 
 float cToF(float c){
@@ -113,7 +113,7 @@ void displayFarenheits(){
   lcd.setCursor(6, 1);
   lcd.print(cToF(temps[4]), 1);
   lcd.setCursor(12, 1);
-  lcd.print("   F");
+  lcd.print(cToF(temps[5]), 1);
 }
 void displayVolts(){
   lcd.clear();
@@ -128,7 +128,7 @@ void displayVolts(){
   lcd.setCursor(6, 1);
   lcd.print(volts[4], 2);
   lcd.setCursor(12, 1);
-  lcd.print("   V");
+  lcd.print(volts[5], 2);
 }
 
 int get_key(unsigned int input)
