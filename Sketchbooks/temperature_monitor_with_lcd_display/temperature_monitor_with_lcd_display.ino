@@ -8,7 +8,7 @@ LiquidCrystal lcd(8, 13, 9, 4, 5, 6, 7);
 const int referenceVolts = 5;
 const int delayTime = 950;
 const int debounceTime = 50;
-const int number_of_sensors = 5;
+const int number_of_sensors = 6;
 float temps[number_of_sensors];
 float volts[number_of_sensors];
 int values[number_of_sensors];
