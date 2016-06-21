@@ -79,8 +79,12 @@ def plot_temperatures(plt, series, labels, colors):
 
     for i, serie in enumerate(series):
         temperatures = TempDataset(serie)
-
         report_on_temperature(temperatures, i)
+
+        if i==0:
+            fig, ax = plt.subplots(1)
+            # rotate and align the tick labels so they look better
+            fig.autofmt_xdate()
 
         plotter.plot_temperature_variations(temperatures.timestamps, temperatures.temperatures, index=i)
         plotter.plot_mean_temperature(temperatures.timestamps, temperatures.average_temperature, index=i)
@@ -94,3 +98,4 @@ def plot_temperatures(plt, series, labels, colors):
 
     if labels:
         plotter.add_legend()
+
