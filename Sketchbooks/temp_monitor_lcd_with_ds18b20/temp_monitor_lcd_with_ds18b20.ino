@@ -2,35 +2,47 @@
 #include <LCDKeypad.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
-#define ONE_WIRE_BUS 2
+
+#define REFERENCE_VOLTS 5
+#define NUMBER_OF_SENSORS 5
+#define FIRST_NTC_INPUT 1
+#define DELAY_TIME 950
+
+#define LCD_ENABLE 9
 #define LCD_BACKLIGHT_PIN         10
 #define LCD_BACKLIGHT_OFF()     digitalWrite( LCD_BACKLIGHT_PIN, LOW )
 #define LCD_BACKLIGHT_ON()      digitalWrite( LCD_BACKLIGHT_PIN, HIGH )
 
-LiquidCrystal lcd(8, 13, 9, 4, 5, 6, 7);
-const int referenceVolts = 5;
-const int delayTime = 950;
-const int debounceTime = 50;
-const int number_of_sensors = 5;
-float temps[number_of_sensors+1];
-float volts[number_of_sensors];
-int values[number_of_sensors];
-float oldTemp = 0.0;
+#define NUMBER_OF_KEYS 5
+#define KEY_READ_INPUT 0
+#define KEY_DEBOUNCE_TIME 50
 
-const int NUM_KEYS = 5;
-int adc_key_val[5] ={50, 200, 400, 600, 800 };
+#define ONE_WIRE_BUS 2
+#define DS18B20_SLEEPTIME 248
+#define DS18B20_ONEWIRE_INDEX 0
+
+const float DS18B20_NOT_READY = 85.0;
+
+char MEASUREMENT_UNITS[5][17] = {
+    "   Numerique    ",
+    "     Celsius    ",               
+    "    Farenheit   ",
+    "      Volts     ",
+    "     Celsius    " 
+};
+
+int ADC_KEY_VALS[5] = { 50, 200, 400, 600, 800 };
+
 int key=-1;
 int oldkey=-1;
-char msgs[5][17] = {"   Numerique    ",
-                    "     Celsius    ",               
-                    "    Farenheit   ",
-                    "      Volts     ",
-                    "     Celsius    " };
-                    
-const int LCD_ENABLE = 9;
-int display_on_time = 0;
 
-          
+float volts[NUMBER_OF_SENSORS];
+int values[NUMBER_OF_SENSORS];
+float temps[NUMBER_OF_SENSORS + 1];
+
+float lastTempReading = 0.0;                    
+int displayOnTime = 0;
+
 /* 
 Assuming a third degree polynomial relationship between voltage
 and temperature with a voltage divider made of an ntc 
@@ -43,42 +55,32 @@ const float a3 = 1.669;
 const float b2 = -10.809;
 const float c1 =  41.851;
 const float d = -25.581;
-const int first_input = 1;
 
+LiquidCrystal lcd(8, 13, 9, 4, 5, 6, 7);
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
 void(* resetFunc) (void) = 0;
 
-void setup(){
-  Serial.begin(9600);
-  lcd.begin(16, 2);
-  digitalWrite( LCD_BACKLIGHT_PIN, HIGH );
-  pinMode( LCD_BACKLIGHT_PIN, OUTPUT ); 
-  sensors.begin();
-  int nbSensors;
-  nbSensors = sensors.getDeviceCount();
-  //Serial.print("Number of sensors found: ");
-  //Serial.println(nbSensors);
-}
-
-
 float getVolt(int val){
-  return (val / 1023.0) * referenceVolts;
+  return (val / 1023.0) * REFERENCE_VOLTS;
 }
 
 float getTemp(float volts){
-  return a3*volts*volts*volts + b2*volts*volts + c1*volts + d;   
+  return a3*pow(volts, 3) + b2*pow(volts, 2) + c1*volts + d;   
+}
+
+float cToF(float c){
+  return (c * 9 / 5) + 32.0;
 }
 
 void reportTemp(int in, float temp){
   Serial.print(in - 1);
   Serial.print(":");
   Serial.println(temp);
-  
 }
 
-void displayValues(){
+void displayRawValues(){
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print(values[0]);
@@ -94,7 +96,7 @@ void displayValues(){
   lcd.print("1024");
 }
 
-void displayTemps(){
+void displayCelsiuses(){
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print(temps[0], 1);
@@ -108,10 +110,6 @@ void displayTemps(){
   lcd.print(temps[4], 1);
   lcd.setCursor(12, 1);
   lcd.print(temps[5],1);
-}
-
-float cToF(float c){
-  return (c * 9 / 5) + 32;
 }
   
 void displayFarenheits(){
@@ -129,6 +127,7 @@ void displayFarenheits(){
   lcd.setCursor(12, 1);
   lcd.print(cToF(temps[5]), 1);
 }
+
 void displayVolts(){
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -145,86 +144,95 @@ void displayVolts(){
   lcd.print("   V");
 }
 
-int get_key(unsigned int input)
-{
+int getKey(unsigned int input){
     int k;
-    for (k = 0; k < NUM_KEYS; k++){
-      if (input < adc_key_val[k]){
+    for (k = 0; k < NUMBER_OF_KEYS; k++){
+      if (input < ADC_KEY_VALS[k]){
         return k;
       }
     }   
-    if (k >= NUM_KEYS)k = -1;  // No valid key pressed
+    if (k >= NUMBER_OF_KEYS)k = -1;  // No valid key pressed
     return k;
 }
 
 int getKeypress(){
-  int adc_key_in = analogRead(0);    // read the value from the sensor 
-   key = get_key(adc_key_in);  // convert into key press
-   if (key != oldkey)   // if keypress is detected
-   {
-     delay(debounceTime);
-     adc_key_in = analogRead(0);    // read the value from the sensor 
-     key = get_key(adc_key_in);    // convert into key press
-     if (key != oldkey)    
-     {   
+  int adcKeyIn = analogRead(KEY_READ_INPUT);
+   key = getKey(adcKeyIn);
+   if (key != oldkey){
+     delay(KEY_DEBOUNCE_TIME);
+     adcKeyIn = analogRead(KEY_READ_INPUT); 
+     key = getKey(adcKeyIn);
+     if (key != oldkey){   
        lcd.clear();
        lcd.setCursor(0, 1);
        oldkey = key;
-       if (key >=0)
-       {
-           lcd.print(msgs[key]);            
+       if (key >= 0){
+           lcd.print(MEASUREMENT_UNITS[key]);            
        }
      }
    }
    return key;
 }
 
+void setup(){
+  Serial.begin(9600);
+  lcd.begin(16, 2);
+  digitalWrite( LCD_BACKLIGHT_PIN, HIGH );
+  pinMode( LCD_BACKLIGHT_PIN, OUTPUT ); 
+  sensors.begin();
+  int nbSensors;
+  nbSensors = sensors.getDeviceCount();
+  lcd.print("Nb. of sensors");
+  lcd.setCursor(7, 1);
+  lcd.print(nbSensors);
+}
+
 void loop(){
   float temp;
   float volt;
-  if (display_on_time > 15){
+  if (displayOnTime > 15){
       lcd.noDisplay();
   }
-  if (display_on_time > 20){
+  if (displayOnTime > 20){
       LCD_BACKLIGHT_OFF();
   }
-  for(int i=0; i < number_of_sensors; i++){
+  for(int i = 0; i < NUMBER_OF_SENSORS; i++){
     key = getKeypress();
     if (key > 0){
-      display_on_time = 0;
+      displayOnTime = 0;
       LCD_BACKLIGHT_ON();
       lcd.display();
     }
-    int input = i + first_input;
+    int input = i + FIRST_NTC_INPUT;
     int value = analogRead(input);
     volt = getVolt(value);
     temp = getTemp(volt);
     values[i] = value;
     temps[i] = temp;
     volts[i] = volt;
-    delay(delayTime);
+    delay(DELAY_TIME);
     reportTemp(input, temp);
-    display_on_time += 1;
+    displayOnTime += 1;
   }
   sensors.requestTemperatures();
-  float newTemp = sensors.getTempCByIndex(0);
-  delay(250);
-  if (newTemp < 55.0){
+  float newTemp = sensors.getTempCByIndex(DS18B20_ONEWIRE_INDEX);
+  delay(DS18B20_SLEEPTIME);
+  if (newTemp < DS18B20_NOT_READY){
     temp = newTemp;
-    oldTemp = temp;
+    lastTempReading = temp;
   }else{
-    temp = oldTemp;
+    temp = lastTempReading;
   }
-  temps[number_of_sensors] = temp;  
-  reportTemp(number_of_sensors+1, temp);
+  temps[NUMBER_OF_SENSORS] = temp;  
+  reportTemp(NUMBER_OF_SENSORS+1, temp);
   
   if(key == 0){
-   displayValues();
+   displayRawValues();
   }else if(key == 2){
     displayFarenheits();
   }else if(key == 3){
     displayVolts();
   }else{
-    displayTemps();
+    displayCelsiuses();
   }
 }
