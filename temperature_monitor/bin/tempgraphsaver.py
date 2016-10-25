@@ -30,7 +30,7 @@ def main_func(labels=None):
         labels = sys.argv[1:]
     labels = [label.decode('utf-8') for label in labels]
     fetcher = StoreSeriesFetcher(Store())
-    series = fetcher.smooth(sampling=12)
+    series = fetcher.fetch()
     for s in series:
         s.reverse()
     colors = ['green', 'lightseagreen', 'royalblue', 'purple', 'crimson']
