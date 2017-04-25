@@ -2,7 +2,8 @@
 
 import memcache
 
-from temperature_monitor.lib.constants import MEMCACHE_EXPIRATION_TIME, MEMCACHED_HOST, SAMPLE_WINDOW
+from temperature_monitor.lib.constants import MEMCACHED_HOST, SAMPLE_WINDOW
+from temperature_monitor.lib.expiration import Expiration
 from temperature_monitor.lib.storekeys import KeyMixin
 
 
@@ -20,6 +21,7 @@ class Store(KeyMixin):
         self.store = memcache.Client([host], debug=True)
         self.depth = depth
         self.counter = 0
+        self.expirator = Expiration()
 
     def get_one(self, i):
         """get data from a precise position"""
@@ -43,7 +45,7 @@ class Store(KeyMixin):
                 self.get_key('temp'): temp,
                 self.get_key('time'): time
             },
-            time=MEMCACHE_EXPIRATION_TIME
+            time=self.expirator.get_expiration_time()
         )
         self._adjust_counter(i)
 
