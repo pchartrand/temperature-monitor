@@ -1,5 +1,6 @@
 #- coding: utf-8 -#
 from temperature_monitor.lib.constants import ARDUINO_NUMBER_OF_INPUTS
+from functools import reduce
 
 class ReadingsAverager(object):
     """

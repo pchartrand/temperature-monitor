@@ -1,5 +1,5 @@
 import datetime
-
+from functools import reduce
 
 class TempDataset(object):
     """
@@ -32,8 +32,8 @@ class TempDataset(object):
 
     def _get_time_variation_in_seconds(self):
         if self.len > 0:
-            t0 = long(self._convert_datetime_to_seconds(self.timestamps[0]))
-            t1 = long(self._convert_datetime_to_seconds(self.timestamps[-1]))
+            t0 = int(self._convert_datetime_to_seconds(self.timestamps[0]))
+            t1 = int(self._convert_datetime_to_seconds(self.timestamps[-1]))
             return t1 - t0
 
     def _get_time_variation(self):
