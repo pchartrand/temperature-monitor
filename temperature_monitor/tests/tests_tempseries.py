@@ -74,7 +74,7 @@ class TemDatasetTests(TestCase):
             [datetime.datetime(2014, 12, 26, 15, 6, 19), 11.2],
             [datetime.datetime(2014, 12, 26, 15, 6, 20), 11.1]
         ])
-        self.assertEqual(2L, dataset.time_variation_in_seconds)
+        self.assertEqual(2, dataset.time_variation_in_seconds)
 
     @istest
     def dataset_behaves_well_when_no_serie_is_given(self):
