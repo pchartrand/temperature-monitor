@@ -14,7 +14,7 @@ class ArduinoUSB(object):
         self.serial = serial.Serial(self.port, self.baud_rate)
 
     def read_line(self):
-        return self.serial.readline()
+        return self.serial.readline().decode('ASCII')
 
     def read_line_stripped(self):
         return self.read_line().strip()
