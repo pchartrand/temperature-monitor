@@ -1,5 +1,5 @@
 from os import environ
-from constants import  HOURS, MINUTES, SECONDS
+from .constants import  HOURS, MINUTES, SECONDS
 
 
 class Expiration(object):
