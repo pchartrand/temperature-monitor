@@ -11,7 +11,7 @@ test_requirements = ['nose']
 
 setup(
     name='temperature-monitor',
-    version='0.2.6',
+    version='0.3.0',
     tests_require = test_requirements,
     install_requires = [
         'python_memcached', 'pyserial', 'matplotlib'
